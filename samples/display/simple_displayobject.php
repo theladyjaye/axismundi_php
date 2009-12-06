@@ -19,7 +19,7 @@ require '../../axismundi/display/AMDisplayObject.php';
 	                    'cta_about'   => 'About',
 	                    'cta_contact' => 'Contact'
 	                   );
-	echo AMDisplayObject::initWithURLAndDictionary('template.html', $dictionary);
+	echo AMDisplayObject::initWithURLAndDictionary('views/template.html', $dictionary);
 	?>
 </body>
 </html>
