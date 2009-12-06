@@ -1,5 +1,5 @@
 <?php
-require '../../forms/AMForm.php';
+require '../../axismundi/forms/AMForm.php';
 
 if(count($_POST))
 {

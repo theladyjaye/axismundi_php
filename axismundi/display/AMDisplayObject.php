@@ -28,84 +28,99 @@
  
 class AMDisplayObject
 {
-	public       $context;
- 
-	protected    $url;
+	public       $dictionary;
 	protected    $source;
- 
+	protected    $url;
+	protected    $dynamicProperties;
+	
 	/* Convenience Methods */
-	public static function initWithUrlAndContext($url, $context)
+	public static function initWithURLAndDictionary($url, $dictionary)
 	{
 		$instance             = new AMDisplayObject();
 		$instance->url        = $url;
-		$instance->context    = $context;
- 
+		$instance->dictionary = $dictionary;
+		
 		return $instance;
 	}
- 
-	public static function initWithUrl($url)
+	public static function initWithURL($url)
 	{
 		$instance = new AMDisplayObject();
 		$instance->url = $url;
 		return $instance;
 	}
- 
+	
 	public static function initWithString($string)
 	{
 		$instance = new AMDisplayObject();
 		$instance->source = $string;
 		return $instance;
 	}
- 
+	
+	public static function initWithDictionary(array $dictionary)
+	{
+		$instance = new AMDisplayObject();
+		$instance->setDataProvider($dictionary);
+		
+		return $instance;
+	}
+	
+	public static function renderDisplayObjectWithURLAndDictionary($url, &$dictionary=null)
+	{
+		static $suffix;// = 1;
+		
+		if(!in_array("displayObjectRenderer_$suffix", stream_get_filters()))
+			stream_filter_register("displayObjectRenderer_$suffix", "AMDisplayObjectRenderer");
+			
+		$pointer = fopen($url, "r");
+		
+		if($dictionary)
+			stream_filter_append($pointer, "displayObjectRenderer_$suffix", STREAM_FILTER_READ, $dictionary);
+		else
+			stream_filter_append($pointer, "displayObjectRenderer_$suffix", STREAM_FILTER_READ);
+		
+		//$suffix++;
+		return stream_get_contents($pointer);
+	}
+	
 	public function render()
 	{
 		if($this->source)
 		{
 			$output = $this->source;
- 
-			foreach($this->context as $key => $value){
+			
+			foreach($this->dictionary as $key => $value){
 				$this->applyPropertyToView($key, $value, $output);
 			}
- 
+			
 			return $output;
 		}
 		else
 		{
-			return $this->renderWithContext();
+			return AMDisplayObject::renderDisplayObjectWithURLAndDictionary($this->url, $this->dictionary);
 		}
- 
 	}
- 
-	protected function renderWithContext()
-	{
-		if(!in_array("displayObjectRenderer", stream_get_filters()))
-			stream_filter_register("displayObjectRenderer", "DisplayObjectRenderer");
- 
-		$pointer = fopen($this->url, "r");
- 
-		if($this->context)
-			stream_filter_append($pointer, "displayObjectRenderer", STREAM_FILTER_READ, $this->context);
-		else
-			stream_filter_append($pointer, "displayObjectRenderer", STREAM_FILTER_READ);
- 
-		return stream_get_contents($pointer);
-	}
- 
+	
 	protected function applyPropertyToView($name, $value, &$component)
 	{
 		$component = str_replace("{".$name."}", $value, $component);
 	}
- 
+	
+	public function setDataProvider($dictionary)
+	{
+		foreach($dictionary as $key=>$value)
+			$this->$key = $value;
+	}
+	
 	public function __toString()
 	{
 		return $this->render();
 	}
 }
- 
+
 class AMDisplayObjectRenderer extends php_user_filter 
 {
-	const kTempStreamMemoryLimit = 10240; // 10 * 1024  = 10k
- 
+	const kTempStreamMemoryLimit = 10240; // 10 * 1024 : 10k
+	
 	public function filter($in, $out, &$consumed, $closing)
 	{
 		while ($bucket = stream_bucket_make_writeable($in)) 
@@ -114,6 +129,7 @@ class AMDisplayObjectRenderer extends php_user_filter
 			{
 				foreach($this->params as $key => $value)
 				{
+					//echo 'key is: ', $key, '<br>';
 					if(is_object($value))
 					{
 						$outValue = $value->__toString();
@@ -125,8 +141,10 @@ class AMDisplayObjectRenderer extends php_user_filter
 							HUGE then we will quickily run out of system resources by $outValue .= $item->__toString()
 							as $outValue will be storing the output of another DisplayObject of arbitrary size.
 						*/
- 
+						
+						
 						$stream_temp  = fopen("php://temp/maxmemory:".AMDisplayObjectRenderer::kTempStreamMemoryLimit, 'r+');
+						
 						foreach($value as $item)
 						{
 							if(is_object($item))
@@ -139,46 +157,46 @@ class AMDisplayObjectRenderer extends php_user_filter
 					{
 						$outValue = $value;
 					}
- 
-					if($outValue)
+					
+					if(isset($outValue))
 					{
 						if(strpos($bucket->data, '{'.$key.'}') !== false){
 							$bucket->data = str_replace('{'.$key.'}', $outValue, $bucket->data);
 						}
- 
+						
 						$outValue = null;
 					}
- 
 					if(isset($stream_temp) && ftell($stream_temp))
 					{
 						rewind($stream_temp);
- 
+						
 						if(strpos($bucket->data, '{'.$key.'}') !== false){
 							$bucket->data = str_replace('{'.$key.'}', stream_get_contents($stream_temp), $bucket->data);
 						}
- 
+						
 						fclose($stream_temp);
 					}
 				}
 			}
- 
+			
 			$this->cleanup($bucket->data);
- 
+			
 			$consumed += $bucket->datalen;
 			stream_bucket_append($out, $bucket);
 		}
 		return PSFS_PASS_ON;
 	}
- 
+	
 	private function cleanup(&$data)
 	{
 		$data = preg_replace('/\{[\d\w]+\}/', '', $data);
 	}
- 
+	
 	public function onCreate()
 	{
 		return true;
 	}
 }
+
  
 ?>

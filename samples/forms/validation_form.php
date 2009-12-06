@@ -1,8 +1,8 @@
 <?php
-require '../../forms/AMForm.php';
-require '../../forms/validators/AMEmailValidator.php';
-require '../../forms/validators/AMInputValidator.php';
-require '../../forms/validators/AMPatternValidator.php';
+require '../../axismundi/forms/AMForm.php';
+require '../../axismundi/forms/validators/AMEmailValidator.php';
+require '../../axismundi/forms/validators/AMInputValidator.php';
+require '../../axismundi/forms/validators/AMPatternValidator.php';
 
 if(count($_POST))
 {
