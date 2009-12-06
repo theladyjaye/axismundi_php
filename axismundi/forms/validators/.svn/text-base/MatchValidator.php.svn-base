@@ -1,0 +1,26 @@
+<?php
+class MatchValidator extends BLITZValidator
+{
+	public function __construct($key1, $key2, $required=false, $message=null)
+	{
+		$this->isRequired = $required;
+		$this->key        = array($key1, $key2); 
+		$this->message    = $message;
+	}
+	
+	public function validate()
+	{
+		$value1 = $this->form->{$this->key[0]};
+		$value2 = $this->form->{$this->key[1]};
+		
+		if($value1 == $value2)
+		{
+			$this->isValid = true;
+		}
+		else
+		{
+			$this->isValid  = false;
+		}
+	}
+}
+?>

@@ -1,0 +1,26 @@
+<?php
+abstract class BLITZValidator
+{
+	public $isRequired;
+	public $key;
+	public $message;
+	public $form;
+	public $isValid;
+	
+	protected $shouldRequire;
+	
+	protected function updateRequiredFlag($value)
+	{
+		if(strlen($value) > 0 && $this->shouldRequire)
+		{
+			$this->isRequired = true;
+		}
+		else
+		{
+			$this->isRequired = $this->shouldRequire ? false : true;
+		}
+	}
+	
+	abstract public function validate();
+}
+?>

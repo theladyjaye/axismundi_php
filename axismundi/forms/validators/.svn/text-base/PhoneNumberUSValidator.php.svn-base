@@ -1,0 +1,17 @@
+<?php
+class PhoneNumberUSValidator extends BLITZValidator
+{
+	
+	public function __construct($key, $required=false, $message=null)
+	{
+		$this->isRequired    =  $required;
+		$this->shouldRequire =  $required ? false : true;
+		$this->key           =  $key;
+		$this->message       =  $message;
+	}
+	
+	public function validate()
+	{
+	}
+}
+?>

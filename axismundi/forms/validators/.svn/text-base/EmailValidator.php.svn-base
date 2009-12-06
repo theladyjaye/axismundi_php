@@ -1,0 +1,34 @@
+<?php
+
+class EmailValidator extends BLITZValidator
+{
+	private $pattern = "/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/";
+	
+	public function __construct($key, $required=false, $message=null)
+	{
+		$this->isRequired    =  $required;
+		$this->shouldRequire =  $required ? false : true;
+		$this->key           =  $key;
+		$this->message       =  $message;
+	}
+	
+	public function validate()
+	{
+		$value = $this->form->{$this->key};
+		$this->updateRequiredFlag($value);
+		
+		$this->isValid = filter_var($value, 
+									FILTER_VALIDATE_REGEXP, 
+									array("options"=>array("regexp"=>$this->pattern)));
+									
+		/*if(preg_match($this->regex, $this->value))
+		{
+			$this->isValid = true;
+		}
+		else
+		{
+			$this->isValid = false;
+		}*/
+	}
+}
+?>
