@@ -31,7 +31,7 @@ class AMZipCodeValidator extends AMValidator
 	private $pattern = "/^\d{5}([\-]\d{4})?$/";
 	private $shouldRequire;
 	
-	public function __construct($key, $required=false, $message=null)
+	public function __construct($key, $required=AMValidator::kOptional, $message=null)
 	{
 		$this->isRequired    =  $required;
 		$this->shouldRequire =  $required ? false : true;

@@ -30,7 +30,7 @@ class AMEmailValidator extends AMValidator
 {
 	private $pattern = "/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/";
 	
-	public function __construct($key, $required=false, $message=null)
+	public function __construct($key, $required=AMValidator::kOptional, $message=null)
 	{
 		$this->isRequired    =  $required;
 		$this->shouldRequire =  $required ? false : true;

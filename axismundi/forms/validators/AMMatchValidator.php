@@ -28,7 +28,7 @@
  **/
 class AMMatchValidator extends AMValidator
 {
-	public function __construct($key1, $key2, $required=false, $message=null)
+	public function __construct($key1, $key2, $required=AMValidator::kOptional, $message=null)
 	{
 		$this->isRequired = $required;
 		$this->key        = array($key1, $key2); 

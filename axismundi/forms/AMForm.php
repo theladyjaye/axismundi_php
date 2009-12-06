@@ -135,26 +135,6 @@ class AMForm
 			$this->delegate->didValidateForm($this);
 	}
 	
-	
-	public function __get($key)
-	{
-		$value = null;
-		
-		switch($key)
-		{
-			case 'isValid':
-				$this->needsValidation ? $this->validate() : null;
-				$value = $this->_isValid;
-				break;
-			
-			default:
-				$value = $this->formDataForKey($key);
-				break;
-		}
-		
-		return $value;
-	}
-	
 	private function formDataForKey($key)
 	{
 		$value = null;
@@ -180,7 +160,7 @@ class AMForm
 			$currentValidator =& $this->validators[$i];
 			$currentValidator->validate();
 			
-			if($currentValidator->isRequired)
+			if($currentValidator->isRequired == AMValidator::kRequired)
 				$tmpFlag = ($tmpFlag && $currentValidator->isValid);
 		}
 		

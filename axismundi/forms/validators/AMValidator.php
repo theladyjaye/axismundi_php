@@ -28,6 +28,9 @@
  **/
 abstract class AMValidator
 {
+	const kRequired = true;
+	const kOptional = false;
+	
 	public $isRequired;
 	public $key;
 	public $message;
@@ -40,11 +43,11 @@ abstract class AMValidator
 	{
 		if(strlen($value) > 0 && $this->shouldRequire)
 		{
-			$this->isRequired = true;
+			$this->isRequired = AMValidator::kRequired;
 		}
 		else
 		{
-			$this->isRequired = $this->shouldRequire ? false : true;
+			$this->isRequired = $this->shouldRequire ? AMValidator::kOptional : AMValidator::kRequired;
 		}
 	}
 	

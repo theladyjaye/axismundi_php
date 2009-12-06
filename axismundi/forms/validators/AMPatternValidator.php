@@ -30,7 +30,7 @@ class AMPatternValidator extends AMValidator
 {
 	public $pattern;
 	
-	public function __construct($key, $required=false, $pattern, $message=null)
+	public function __construct($key, $required=AMValidator::kOptional, $pattern, $message=null)
 	{
 		$this->isRequired    =  $required;
 		$this->shouldRequire =  $required ? false : true;

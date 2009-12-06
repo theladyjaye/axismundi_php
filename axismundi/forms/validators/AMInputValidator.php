@@ -32,7 +32,7 @@ class AMInputValidator extends AMValidator
 	public $maxLength;
 	public $key;
 	
-	public function __construct($key, $required=false, $minLength=0, $maxLength=0, $message=null)
+	public function __construct($key, $required=AMValidator::kOptional, $minLength=0, $maxLength=0, $message=null)
 	{
 		$this->isRequired    =  $required;
 		$this->shouldRequire =  $required ? false : true;
