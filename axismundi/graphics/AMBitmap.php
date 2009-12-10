@@ -284,20 +284,23 @@ class AMBitmap
 	
 	public function write($filenameWithPath)
 	{
+		$status = false;
 		switch ($this->type)
 		{
 			case IMAGETYPE_GIF:
-				imagegif($this->bitmapData, $filenameWithPath);
+				$status = imagegif($this->bitmapData, $filenameWithPath);
 				break;
 			
 			case IMAGETYPE_JPEG:
-				imagejpeg($this->bitmapData, $filenameWithPath, $this->quality);
+				$status = imagejpeg($this->bitmapData, $filenameWithPath, $this->quality);
 				break;
 			
 			case IMAGETYPE_PNG:
-				imagepng($this->bitmapData, $filenameWithPath);
+				$status = imagepng($this->bitmapData, $filenameWithPath);
 				break;
 		}
+		
+		return $status;
 	}
 	
 	public function __destruct()

@@ -26,46 +26,24 @@
  *    @license http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
  *
  **/
-abstract class AMValidator
+class FilesizeValidator extends BLITZValidator
 {
-	const kRequired = true;
-	const kOptional = false;
+	public $bytes;
 	
-	public $isRequired;
-	public $key;
-	public $message;
-	public $form;
-	public $isValid;
-	
-	protected $shouldRequire;
-	
-	protected function updateRequiredFlag($value)
+	public function __construct($key, $required=false, $bytes, $message=null)
 	{
-		// file upload?
-		if(is_object($value))
-		{
-			if($value->error == 0 && $value->size > 0 && $this->shouldRequire)
-			{
-				$this->isRequired = true;
-			}
-			else
-			{
-				$this->isRequired = $this->shouldRequire ? AMValidator::kOptional : AMValidator::kRequired;
-			}
-		}
-		else
-		{
-			if(strlen($value) > 0 && $this->shouldRequire)
-			{
-				$this->isRequired = true;
-			}
-			else
-			{
-				$this->isRequired = $this->shouldRequire ? AMValidator::kOptional : AMValidator::kRequired;
-			}
-		}
+		$this->isRequired    =  $required;
+		$this->shouldRequire =  $required ? false : true;
+		$this->bytes         =  $bytes;
+		$this->key           =  $key;
+		$this->message       =  $message;
 	}
 	
-	abstract public function validate();
+	public function validate()
+	{
+		$value = $this->form->{$this->key};
+		$this->updateRequiredFlag($value);
+		$this->isValid = ($value->size <= $this->bytes) ? true : false;
+	}
 }
 ?>
