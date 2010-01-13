@@ -47,6 +47,7 @@ require '../../axismundi/display/AMMustache.php';
 		function performAction()
 		{
 			var template = "<?php AMMustache::template('views/mustacheTemplate.html') ?>";
+			
 			for(var i = 0; i < 5; i++)
 			{
 				var data = {   name: "Your Name",
@@ -61,7 +62,6 @@ require '../../axismundi/display/AMMustache.php';
 					
 				var html = Mustache.to_html(template, data);
 				$("#target").append(html);
-				
 			}
 		}
 	</script>
