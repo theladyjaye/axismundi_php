@@ -2,7 +2,7 @@
 /**
  *    AxisMundi
  * 
- *    Copyright (C) 2009 Adam Venturella
+ *    Copyright (C) 2010 Adam Venturella
  *
  *    LICENSE:
  *
@@ -22,7 +22,7 @@
  *    @package samples
  *    @subpackage display
  *    @author Adam Venturella <aventurella@gmail.com>
- *    @copyright Copyright (C) 2009 Adam Venturella
+ *    @copyright Copyright (C) 2010 Adam Venturella
  *    @license http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
  *
  **/
