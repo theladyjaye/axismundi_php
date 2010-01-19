@@ -17,8 +17,6 @@
  *    PURPOSE. See the License for the specific language governing permissions and
  *    limitations under the License.
  *
- *    Author: Adam Venturella - aventurella@gmail.com
- *
  *    @package net
  *    @author Adam Venturella <aventurella@gmail.com>
  *    @copyright Copyright (C) 2009 Adam Venturella
