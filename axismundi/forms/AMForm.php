@@ -138,9 +138,19 @@ class AMForm
 	private function formDataForKey($key)
 	{
 		$value = null;
-		if(isset($this->formData) && isset($this->formData[$key]))
+		
+		if(isset($this->formData))
 		{
-			$value = $this->formData[$key];
+			$keys   = explode('->', $key);
+			$value  = $this->formData;
+			
+			while(count($keys))
+			{
+				if(array_key_exists($keys[0], $value))
+				{
+					$value = $value[array_shift($keys)];
+				}
+			}
 		}
 		else if(isset($this->fileData) && isset($this->fileData[$key]))
 		{
