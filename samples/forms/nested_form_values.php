@@ -47,6 +47,7 @@ if(count($_POST))
 	$email          = $form->email;
 	$pref_chocolate = $form->{'preferences->chocolate'};
 	$pref_sardines  = $form->{'preferences->sardines'};
+	
 	if($form->isValid)
 	{
 		echo <<<OUT

@@ -34,84 +34,13 @@ abstract class AMServiceContract
 		$this->endpoints = array();
 	}
 	
+	
 	abstract public function registerServiceEndpoints();
 	
 	public function addEndpoint($method, $uri, $action)
 	{
 		$endpoint = new AMServiceEndpoint($method, $uri, $action);
 		$this->endpoints[$endpoint->method][$endpoint->hash] = $endpoint;
-		/*
-		$paramCount           = 0;
-		$key                  = "";
-		$queryString          = null;
-		$parts                = array();
-		$hasParams            = false;
-		$queryStringHasParams = false;
-		
-		
-		// get rid of any leading /
-		if($uri[0] == '/') $uri = substr($uri, 1);
-		
-		// do we have any query string params?
-		$hasQueryString = strripos($uri, '?');
-		
-		if($hasQueryString !== false)
-		{
-			$queryString          = substr($uri, $hasQueryString+1);
-			$queryStringHasParams = (strpos($queryString, '{') === false) ? false : true
-			$queryString          = explode('&', $queryString);
-			$uri                  = substr($uri, 0, $hasQueryString);
-		}
-		
-		// cleanup and prepare:
-		// do we end with a / 
-		$uri       = (strripos($uri, '/') == (strlen($uri) -1)) ? substr($uri, 0, -1) : $uri;
-		$hasParams = (strpos($uri, '{') === false) ? false : true;
-		
-		$segments  = explode('/', $uri);
-		
-		// parse the main URI body
-		if($hasParams)
-		{
-			foreach($segments as $segment)
-			{
-				if(strpos($segment, '{') === false)
-				{
-					$key    .= $segment;
-					$parts[] = $segment;
-				}
-				else
-				{
-					$paramCount = $paramCount + 1;
-				}
-			}
-		}
-		else
-		{
-			$parts = $segments;
-			$key   = implode("", $segments);
-		}
-		
-		
-		// parse the Query String 
-		if($queryStringHasParams)
-		{
-			$queryString = explode('&', $queryString);
-		}
-		else
-		{
-			
-		}
-		
-		$hash           = AMServiceManager::generateKey($key, $paramCount);
-		
-		$object         = new stdClass();
-		$object->action = $action;
-		$object->parts  = $parts;
-		$object->params = $paramCount;
-		
-		$this->endpoints[strtoupper($method)][$hash] = $object;
-		*/
 		
 	}
 
