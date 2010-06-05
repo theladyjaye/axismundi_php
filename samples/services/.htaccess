@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /samples/services
+RewriteRule .* index.php [QSA,L]
