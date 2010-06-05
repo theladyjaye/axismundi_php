@@ -20,7 +20,7 @@
  *    Author: Adam Venturella - aventurella@gmail.com
  *
  *    @package samples
- *    @subpackage forms
+ *    @subpackage services
  *    @author Adam Venturella <aventurella@gmail.com>
  *    @copyright Copyright (C) 2010 Adam Venturella
  *    @license http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
